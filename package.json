@@ -1,11 +1,25 @@
 {
+  "name": "mima",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
   "dependencies": {
     "canvas-confetti": "^1.9.3",
-    "howler": "^2.2.4"
+    "framer-motion": "^11.0.0",
+    "howler": "^2.2.4",
+    "next": "14.0.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "tailwindcss": "^3.4.0"
   },
   "devDependencies": {
     "@types/canvas-confetti": "^1.6.4",
-    "@types/howler": "^2.2.11"
+    "@types/howler": "^2.2.11",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.33",
+    "typescript": "^5.3.3"
   }
 }
-
