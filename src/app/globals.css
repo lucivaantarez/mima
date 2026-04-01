@@ -1,0 +1,289 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   CSS CUSTOM PROPERTIES
+   ============================================================ */
+:root {
+  /* Force dark color scheme — prevents Safari auto-inverting backgrounds */
+  color-scheme: dark;
+}
+
+/* ============================================================
+   BASE RESET & iOS IMMERSION
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  /* Prevent rubber-band bounce from escaping the page — critical for Safari */
+  overscroll-behavior-y: none;
+  /* Smooth momentum scroll on iOS without needing -webkit-overflow-scrolling per element */
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  background-color: #050510;
+  color: #ffffff;
+  font-family: 'Exo 2', sans-serif;
+  -webkit-font-smoothing:  antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Prevent iOS callout menu on long-press (images, links) */
+  -webkit-touch-callout: none;
+  /* Disable tap highlight flash on every tap */
+  -webkit-tap-highlight-color: transparent;
+  /* Prevent accidental text selection while the user is holding / swiping */
+  user-select: none;
+  -webkit-user-select: none;
+  /* Improve touch responsiveness — removes 300ms tap delay on older iOS */
+  touch-action: manipulation;
+  /* Prevent overscroll bounce at the body level */
+  overscroll-behavior: none;
+}
+
+/* ── Selective text re-enable for success / poem copy ── */
+.selectable {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+/* ── Kill scrollbar globally ── */
+::-webkit-scrollbar { display: none; }
+* { scrollbar-width: none; }
+
+/* ============================================================
+   DEEP SPACE BACKGROUND GRADIENT
+   ============================================================ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -5%, rgba(143,184,237,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 90% 90%, rgba(242,167,202,0.04) 0%, transparent 50%),
+    radial-gradient(ellipse 100% 100% at 50% 50%, #050510 0%, #020208 100%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ============================================================
+   STARFIELD — LAYER 1
+   Tiny white stars, ~50 stars, 5.5 s twinkle
+   ============================================================ */
+@keyframes twinkle-sm {
+  0%, 100% { opacity: 0.15; }
+  50%       { opacity: 0.90; }
+}
+
+.stars-sm {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  background: transparent;
+  pointer-events: none;
+  z-index: 0;
+  will-change: opacity;
+  animation: twinkle-sm 5.5s ease-in-out infinite;
+  box-shadow:
+     10px  44px rgba(255,255,255,0.75),
+     63px 128px rgba(255,255,255,0.50),
+    134px  27px rgba(255,255,255,0.85),
+    198px  92px rgba(255,255,255,0.60),
+    270px  14px rgba(255,255,255,0.90),
+    342px  75px rgba(255,255,255,0.55),
+    388px 148px rgba(255,255,255,0.70),
+     24px 218px rgba(255,255,255,0.65),
+     97px 183px rgba(255,255,255,0.40),
+    170px 265px rgba(255,255,255,0.80),
+    244px 198px rgba(255,255,255,0.55),
+    315px 238px rgba(255,255,255,0.70),
+    373px 182px rgba(255,255,255,0.60),
+     47px 325px rgba(255,255,255,0.80),
+    113px 384px rgba(255,255,255,0.50),
+    190px 308px rgba(255,255,255,0.75),
+    261px 358px rgba(255,255,255,0.60),
+    333px 298px rgba(255,255,255,0.45),
+    382px 343px rgba(255,255,255,0.80),
+     16px 455px rgba(255,255,255,0.55),
+     80px 512px rgba(255,255,255,0.70),
+    158px 434px rgba(255,255,255,0.65),
+    228px 492px rgba(255,255,255,0.90),
+    298px 448px rgba(255,255,255,0.45),
+    358px 513px rgba(255,255,255,0.70),
+     38px 582px rgba(255,255,255,0.55),
+    123px 624px rgba(255,255,255,0.80),
+    203px 564px rgba(255,255,255,0.60),
+    275px 604px rgba(255,255,255,0.45),
+    348px 578px rgba(255,255,255,0.70),
+    390px 632px rgba(255,255,255,0.55),
+     58px 705px rgba(255,255,255,0.80),
+    143px 733px rgba(255,255,255,0.50),
+    213px 682px rgba(255,255,255,0.75),
+    288px 723px rgba(255,255,255,0.60),
+    363px 698px rgba(255,255,255,0.45),
+     21px 805px rgba(255,255,255,0.70),
+    103px 843px rgba(255,255,255,0.55),
+    178px 783px rgba(255,255,255,0.80),
+    253px 823px rgba(255,255,255,0.60),
+    323px 778px rgba(255,255,255,0.45),
+    378px 832px rgba(255,255,255,0.70),
+     75px  88px rgba(255,255,255,0.55),
+    303px 432px rgba(255,255,255,0.80),
+    153px 653px rgba(255,255,255,0.40),
+     42px 752px rgba(255,255,255,0.70),
+    223px 133px rgba(255,255,255,0.60),
+    352px 582px rgba(255,255,255,0.50),
+     88px 295px rgba(255,255,255,0.80),
+    193px 472px rgba(255,255,255,0.45);
+}
+
+/* ============================================================
+   STARFIELD — LAYER 2
+   Medium pink-tinted stars, ~25 stars, 3.8 s twinkle
+   ============================================================ */
+@keyframes twinkle-md {
+  0%, 100% { opacity: 0.10; }
+  50%       { opacity: 0.75; }
+}
+
+.stars-md {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: transparent;
+  pointer-events: none;
+  z-index: 0;
+  will-change: opacity;
+  animation: twinkle-md 3.8s ease-in-out infinite;
+  animation-delay: 1.3s;
+  box-shadow:
+     32px  62px rgba(242,167,202,0.65),
+    162px 103px rgba(255,255,255,0.55),
+    302px  57px rgba(242,167,202,0.45),
+    382px 173px rgba(255,255,255,0.60),
+     72px 252px rgba(242,167,202,0.55),
+    202px 223px rgba(255,255,255,0.45),
+    328px 283px rgba(242,167,202,0.65),
+     53px 393px rgba(255,255,255,0.50),
+    178px 443px rgba(242,167,202,0.45),
+    293px 403px rgba(255,255,255,0.60),
+    372px 463px rgba(242,167,202,0.55),
+     27px 533px rgba(255,255,255,0.45),
+    148px 582px rgba(242,167,202,0.65),
+    268px 548px rgba(255,255,255,0.55),
+    358px 592px rgba(242,167,202,0.45),
+     82px 672px rgba(255,255,255,0.60),
+    208px 723px rgba(242,167,202,0.55),
+    313px 683px rgba(255,255,255,0.45),
+    388px 742px rgba(242,167,202,0.65),
+     62px 803px rgba(255,255,255,0.55),
+    183px 833px rgba(242,167,202,0.45),
+    308px 793px rgba(255,255,255,0.60),
+    123px 332px rgba(242,167,202,0.55),
+    243px 502px rgba(255,255,255,0.45),
+    353px 353px rgba(242,167,202,0.65);
+}
+
+/* ============================================================
+   STARFIELD — LAYER 3
+   Large blue-accent stars, ~10 stars, 7 s deep twinkle
+   ============================================================ */
+@keyframes twinkle-lg {
+  0%, 100% { opacity: 0.05; }
+  50%       { opacity: 0.65; }
+}
+
+.stars-lg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: transparent;
+  pointer-events: none;
+  z-index: 0;
+  will-change: opacity;
+  animation: twinkle-lg 7s ease-in-out infinite;
+  animation-delay: 2.6s;
+  box-shadow:
+    102px 152px 1px 1px rgba(143,184,237,0.65),
+    283px  83px 1px 1px rgba(143,184,237,0.45),
+    182px 382px 1px 1px rgba(143,184,237,0.55),
+    353px 303px 1px 1px rgba(242,167,202,0.55),
+     53px 553px 1px 1px rgba(143,184,237,0.65),
+    253px 622px 1px 1px rgba(143,184,237,0.45),
+    323px 703px 1px 1px rgba(242,167,202,0.50),
+     92px 732px 1px 1px rgba(143,184,237,0.60),
+    202px 203px 1px 1px rgba(255,255,255,0.70),
+    382px 502px 1px 1px rgba(143,184,237,0.50);
+}
+
+/* ============================================================
+   LOW POWER MODE / REDUCED MOTION
+   When iOS is in Low Power Mode or the user has enabled
+   "Reduce Motion" in Accessibility, disable all CSS animations.
+   Framer Motion respects this automatically via its own checks.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .stars-sm,
+  .stars-md,
+  .stars-lg {
+    animation: none !important;
+    opacity: 0.4;
+  }
+}
+
+/* ============================================================
+   GLASSMORPHISM UTILITIES
+   ============================================================ */
+@layer components {
+  .glass {
+    @apply backdrop-blur-2xl bg-white/5 border border-white/10;
+  }
+
+  .glass-card {
+    @apply backdrop-blur-2xl bg-white/[0.03] border border-white/10 rounded-2xl;
+    box-shadow:
+      0 8px 32px rgba(0,0,0,0.5),
+      inset 0 0 0 1px rgba(255,255,255,0.04);
+    /* GPU-composite the card so transforms animate at 60fps */
+    will-change: transform, opacity;
+    transform: translateZ(0);
+  }
+
+  .glass-pink {
+    @apply backdrop-blur-2xl border border-saturn-pink/20;
+    background: rgba(242,167,202,0.05);
+    box-shadow:
+      0 8px 32px rgba(242,167,202,0.12),
+      inset 0 0 0 1px rgba(242,167,202,0.06);
+    will-change: transform, opacity;
+    transform: translateZ(0);
+  }
+
+  .glass-blue {
+    @apply backdrop-blur-2xl border border-saturn-blue/20;
+    background: rgba(143,184,237,0.05);
+    box-shadow:
+      0 8px 32px rgba(143,184,237,0.12),
+      inset 0 0 0 1px rgba(143,184,237,0.06);
+    will-change: transform, opacity;
+    transform: translateZ(0);
+  }
+
+  .glass-pill {
+    @apply backdrop-blur-xl bg-white/[0.06] border border-white/[0.08] rounded-full;
+  }
+}
