@@ -144,7 +144,7 @@ export default function PhotoGallery() {
         className="text-[8px] tracking-[0.5em] text-white/28 uppercase text-center mb-6"
         style={{ fontFamily: '"Exo 2", sans-serif' }}
       >
-        us, in frames
+        humanly saturn
       </p>
 
       {/* ── Horizontal scroll gallery ── */}
