@@ -27,8 +27,8 @@ function WaveBar({ delay }: { delay: number }) {
 // ─── Single voice channel user ────────────────────────────────────────────────
 interface VoiceUserProps {
   username: string;
-  initial: string;
-  avatarGradient: string;
+  avatarSrc: string;
+  fallbackGradient: string;
   accentColor: string;
   barDelayOffset: number;
   ringDelayOffset: number;
@@ -36,8 +36,8 @@ interface VoiceUserProps {
 
 function VoiceUser({
   username,
-  initial,
-  avatarGradient,
+  avatarSrc,
+  fallbackGradient,
   accentColor,
   barDelayOffset,
   ringDelayOffset,
@@ -46,11 +46,19 @@ function VoiceUser({
     <div className="flex items-center gap-3 py-[7px]">
       {/* Avatar + speaking ring */}
       <div className="relative flex-shrink-0">
+        {/* Circular photo avatar — falls back to gradient if image missing */}
         <div
-          className="w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-light text-white"
-          style={{ background: avatarGradient }}
+          className="w-9 h-9 rounded-full overflow-hidden flex-shrink-0"
+          style={{ background: fallbackGradient }}
         >
-          {initial}
+          <img
+            src={avatarSrc}
+            alt={username}
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).style.display = 'none';
+            }}
+          />
         </div>
 
         {/* Animated speaking ring */}
@@ -141,16 +149,16 @@ export default function DiscordCard() {
         <div className="flex flex-col divide-y divide-white/[0.04]">
           <VoiceUser
             username="lanavienrose"
-            initial="L"
-            avatarGradient="linear-gradient(135deg, #f2a7ca 0%, #c87aab 100%)"
+            avatarSrc="/images/avatar-lana.jpg"
+            fallbackGradient="linear-gradient(135deg, #f2a7ca 0%, #c87aab 100%)"
             accentColor="#f2a7ca"
             barDelayOffset={0}
             ringDelayOffset={0}
           />
           <VoiceUser
             username="peazyqn"
-            initial="P"
-            avatarGradient="linear-gradient(135deg, #8fb8ed 0%, #5a8ed4 100%)"
+            avatarSrc="/images/avatar-mima.jpg"
+            fallbackGradient="linear-gradient(135deg, #8fb8ed 0%, #5a8ed4 100%)"
             accentColor="#8fb8ed"
             barDelayOffset={0.28}
             ringDelayOffset={0.4}
