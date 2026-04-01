@@ -405,11 +405,12 @@ export default function Home() {
         {/* Touch target */}
         <div
           className="relative flex items-center justify-center select-none"
-          style={{ touchAction: 'none', cursor: 'pointer' }}
+          style={{ touchAction: 'none', cursor: 'pointer', WebkitUserSelect: 'none' }}
           onPointerDown={startHold}
           onPointerUp={cancelHold}
           onPointerLeave={cancelHold}
           onPointerCancel={cancelHold}
+          onContextMenu={(e) => e.preventDefault()}
         >
           {isHolding ? <ActiveOrbitRing /> : <IdleOrbitRing />}
 
