@@ -164,17 +164,38 @@ export default function MusicPlayer({ isUnlocked }: MusicPlayerProps) {
   }, [trackIndex]);
 
   // ── Auto-start with gentle fade on first unlock ─────────────────────────────
+  // Chrome Android: dynamic import means MusicPlayer may finish mounting AFTER
+  // isUnlocked is already true. We retry once after 300ms if howlRef isn't ready.
   useEffect(() => {
-    if (!isUnlocked || hasAutoStarted.current || !howlRef.current) return;
-    hasAutoStarted.current = true;
-    howlRef.current.play();
-    howlRef.current.fade(0, VOLUME, FADE_IN_MS);
-    isPlayingRef.current = true;
-    setIsPlaying(true);
-    setIsExpanded(true);
+    if (!isUnlocked || hasAutoStarted.current) return;
 
-    if ('mediaSession' in navigator) {
-      navigator.mediaSession.playbackState = 'playing';
+    const tryStart = () => {
+      const howl = howlRef.current;
+      if (!howl) return;
+
+      // Resume AudioContext explicitly — Chrome Android requires this
+      if (Howler.ctx && Howler.ctx.state === 'suspended') {
+        Howler.ctx.resume();
+      }
+
+      hasAutoStarted.current = true;
+      howl.play();
+      howl.fade(0, VOLUME, FADE_IN_MS);
+      isPlayingRef.current = true;
+      setIsPlaying(true);
+      setIsExpanded(true);
+
+      if ('mediaSession' in navigator) {
+        navigator.mediaSession.playbackState = 'playing';
+      }
+    };
+
+    // Try immediately; if Howl isn't ready yet, retry after 300ms
+    if (howlRef.current) {
+      tryStart();
+    } else {
+      const retry = setTimeout(tryStart, 300);
+      return () => clearTimeout(retry);
     }
   }, [isUnlocked]);
 
